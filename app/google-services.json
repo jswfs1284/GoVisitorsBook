@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "161545467722",
+    "project_id": "govisitorsbook",
+    "storage_bucket": "govisitorsbook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161545467722:android:392a8ea74983dab00673b3",
+        "android_client_info": {
+          "package_name": "com.example.govisitorsbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "161545467722-5g76d1102sn3q64a5gcj1nlmvra587bq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlaIC70e_HVILVQQNZG7AAJdk6emfU_xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "161545467722-5g76d1102sn3q64a5gcj1nlmvra587bq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

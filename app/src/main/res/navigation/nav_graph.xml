@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.govisitorsbook.LoginFragment"
+        android:name="com.example.govisitorsbook.Login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -21,7 +21,7 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/joinFragment"
-        android:name="com.example.govisitorsbook.JoinFragment"
+        android:name="com.example.govisitorsbook.Login.JoinFragment"
         android:label="fragment_join"
         tools:layout="@layout/fragment_join" />
     <fragment
