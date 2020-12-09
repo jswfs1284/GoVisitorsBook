@@ -1,12 +1,14 @@
 package com.example.govisitorsbook
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +46,12 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         )
+    }
+
+    override fun onActivityResult(  // QR코드 결과값 activity->fragment로 전달
+        requestCode: Int, resultCode: Int, data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     // 뒤로가기 버튼 눌렀을 때, 안꺼지고 뒤로가기

@@ -16,9 +16,6 @@ import kotlinx.android.synthetic.main.fragment_login.view.*
  * A simple [Fragment] subclass.
  */
 class LoginFragment : Fragment() {
-    private val loginDao by lazy {
-        UserDatabase.getDatabase(context).logindao()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
