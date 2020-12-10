@@ -43,9 +43,10 @@ class QRFragment : Fragment() {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
             if (result.contents == null) {
-                Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
+                //Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_global_homeFragment)
             } else {
-                Toast.makeText(requireContext(), "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Scanned: " + result.contents, Toast.LENGTH_SHORT).show()
                 // 테스트용 QR코드 발급 : https://the-qrcode-generator.com/ 테스트값 입력 (ex. 성남시 수정구)
                 // 경재님 소스 들어갈 부분 (QR에서 가져온 값 - GPS값 비교)
                 

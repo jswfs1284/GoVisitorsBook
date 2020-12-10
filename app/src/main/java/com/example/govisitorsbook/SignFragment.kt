@@ -33,9 +33,7 @@ class SignFragment : Fragment() {
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                txt_temp.text = "occur back pressed event!!"
-
-                findNavController().navigate(R.id.QRFragment)
+                findNavController().navigate(R.id.action_global_homeFragment)
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
