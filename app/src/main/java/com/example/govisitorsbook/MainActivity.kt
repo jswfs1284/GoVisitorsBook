@@ -24,15 +24,11 @@ class MainActivity : AppCompatActivity() {
         )
 
         controller.addOnDestinationChangedListener { _, destination, _ ->
-            /* 최종 destination에서 네비바 없애기*/
-            if (arrayListOf(
-                    R.id.homeFragment, R.id.homeFragment
-                ).contains(destination.id)
-            ) {
-                bottom_navigation.visibility = View.VISIBLE
-            } else {
-                bottom_navigation.visibility = View.GONE
-            }
+            /* 하단 메뉴바 */
+            /*if (arrayListOf().contains(destination.id)) { bottom_navigation.visibility = View.VISIBLE }
+            else { bottom_navigation.visibility = View.GONE }*/
+
+            bottom_navigation.visibility = View.GONE
         }
 
         // Top Level Destination 설정. (뒤로가기 안보이게 하기)

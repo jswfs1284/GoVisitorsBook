@@ -26,7 +26,7 @@
         tools:layout="@layout/fragment_join" />
     <fragment
         android:id="@+id/visitHistoryFragment"
-        android:name="com.example.govisitorsbook.VisitHistoryFragment"
+        android:name="com.example.govisitorsbook.VisitHistory.VisitHistoryFragment"
         android:label="fragment_visit_history"
         tools:layout="@layout/fragment_visit_history" />
     <fragment
