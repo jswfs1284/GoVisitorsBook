@@ -1,84 +1,118 @@
 package com.example.govisitorsbook.Login
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Environment
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.govisitorsbook.R
-import com.example.subsmanager2.util.hideKeyboard
-import com.google.firebase.auth.FirebaseAuth
+import com.example.govisitorsbook.database.DatabaseMod
+import com.github.gcacace.signaturepad.views.SignaturePad
 import kotlinx.android.synthetic.main.fragment_join.*
 import kotlinx.android.synthetic.main.fragment_join.view.*
+import kotlinx.android.synthetic.main.fragment_join.view.btn_register
+import kotlinx.android.synthetic.main.fragment_join.view.signaturePad
+import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 
 /**
  * A simple [Fragment] subclass.
  */
 class JoinFragment : Fragment() {
 
-    //FirebaseAuth 객체의 공유 인스턴스를 가져오기
-    val firebaseAuth by lazy { FirebaseAuth.getInstance() }
+
+
+    val dao by lazy { DatabaseMod.getDatabase(requireContext()).userDao() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_join, container, false)
+        val root =  inflater.inflate(R.layout.fragment_join, container, false)
+
+        root.signaturePad.setOnSignedListener(object : SignaturePad.OnSignedListener {
+            override fun onStartSigning() {
+
+            }
+
+            override fun onClear() {
+
+            }
+
+            override fun onSigned() {
+
+            }
+
+
+        })
+
+
+        root.btn_clear.setOnClickListener {
+            signaturePad.clear()
+        }
+
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //회원 가입 버튼을 클릭한 경우
         view.btn_register.setOnClickListener {
-            //id, pw, pw_firm 값 가져오기
-            val id = view.edit_userid.text.toString()
-            val pw = view.edit_password.text.toString()
-            val name = view.edit_name.text.toString()
-            val tel = view.edit_tel.text.toString()
 
-            //id, pw, pw_firm 입력 여부 확인
-            when {
-                id.isEmpty() || pw.isEmpty() || name.isEmpty() || tel.isEmpty() -> Toast.makeText(requireContext(), "모든 항목을 입력해주세요.", Toast.LENGTH_LONG).show()
-                else -> {
-                    //id, pw, pw_firm 입력값이 정상이면
-                    view.register_loader.visibility = View.VISIBLE
+            view.signaturePad.buildDrawingCache()
+            val sign = signaturePad.getDrawingCache()
+            val fos: FileOutputStream // FileOutputStream 이용 파일 쓰기 한다
+            val strFolderPath = Environment.getExternalStorageDirectory()
+                .absolutePath
+            val folder = File(strFolderPath)
+            if (!folder.exists()) {  // 해당 폴더 없으면 만들어라
+                folder.mkdirs()
+            }
+            val strFilePath =
+                strFolderPath + "/" + System.currentTimeMillis() + ".png"
+            val fileCacheItem = File(strFilePath)
+            try {
+                fos = FileOutputStream(fileCacheItem)
+                sign.compress(Bitmap.CompressFormat.PNG, 100, fos)
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            } finally {
+                Toast.makeText(requireContext(), "사인을 캡쳐했습니다", Toast.LENGTH_SHORT).show()
+            }
 
-                    firebaseAuth.createUserWithEmailAndPassword(id, pw)
-                        .addOnCompleteListener { task ->
-                            /* 성공한 경우*/
-                            task.addOnSuccessListener {
-                                // 수정필요!!!  RoomDB에 id, name, tel 저장해주기. (Firebase-Auth에는 id, pw만 저장됨)
+            var userName = view.user_name.text.toString()
+            var phoneNumber = view.phone_number.text.toString()
 
+                if (userName.isEmpty() || phoneNumber.isEmpty())
+                {
+                    Toast.makeText(requireContext(), "모든 항목을 입력해주세요.", Toast.LENGTH_LONG).show()
+                }
+                else {
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO){
+                        val user = User(
+                            userName = userName,
+                            phoneNumber = phoneNumber,
+                            signPath = strFilePath
+                        )
+                        dao.insert(user)
+                    }
+                    findNavController().navigate(R.id.action_global_loginFragment)
+                }
 
+        }
+    }
 
-                                //입력 필드 초기화
-                                view.edit_userid.text = null
-                                view.edit_password.text = null
-                                view.edit_name.text = null
-                                view.edit_tel.text = null
-
-                                view.register_loader.visibility = View.GONE
-
-                                hideKeyboard()
-                                findNavController().navigate(R.id.action_global_homeFragment)
-                            }
-                            /* 실패한 경우*/
-                            task.addOnFailureListener {
-                                view.register_loader.visibility = View.GONE
-                                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }//end of firebaseAuth.createUserWithEmailAndPassword.addOnCompleteListener
-                }//end of when-else
-            }//end of when
-        }//end of view.btn_register.setOnClickListener
-    }//end of onViewCreated
 
 }

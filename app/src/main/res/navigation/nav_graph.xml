@@ -28,7 +28,11 @@
         android:id="@+id/visitHistoryFragment"
         android:name="com.example.govisitorsbook.VisitHistory.VisitHistoryFragment"
         android:label="fragment_visit_history"
-        tools:layout="@layout/fragment_visit_history" />
+        tools:layout="@layout/fragment_visit_history" >
+        <argument
+            android:name="Name"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/QRFragment"
         android:name="com.example.govisitorsbook.QRFragment"
@@ -37,12 +41,36 @@
         <action
             android:id="@+id/action_QRFragment_to_signFragment"
             app:destination="@id/signFragment" />
+        <argument
+            android:name="Name"
+            app:argType="string" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
+        <argument
+            android:name="ImgPath"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/signFragment"
         android:name="com.example.govisitorsbook.SignFragment"
         android:label="fragment_sign"
-        tools:layout="@layout/fragment_sign" />
+        tools:layout="@layout/fragment_sign" >
+        <argument
+            android:name="Name"
+            app:argType="string" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
+        <argument android:name="ImgPath"
+            app:argType="string" />
+        <argument
+            android:name="Address"
+            app:argType="string" />
+        <argument
+            android:name="Mall"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.govisitorsbook.HomeFragment"
@@ -54,6 +82,15 @@
         <action
             android:id="@+id/action_homeFragment_to_visitHistoryFragment"
             app:destination="@id/visitHistoryFragment" />
+        <argument
+            android:name="Name"
+            app:argType="string" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
+        <argument
+            android:name="ImgPath"
+            app:argType="string" />
     </fragment>
     <action
         android:id="@+id/action_global_homeFragment"

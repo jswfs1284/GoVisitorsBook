@@ -22,12 +22,24 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        val userName = arguments?.getString("Name").toString()
+        val phoneNumber = arguments?.getString("phoneNumber").toString()
+        val imgPath = arguments?.getString("ImgPath").toString()
+
+        text_name.text = userName + "님"
 
         btn_QR.setOnClickListener {
-            findNavController().navigate(R.id.QRFragment)
+            findNavController().navigate(R.id.QRFragment,Bundle().apply {
+                putString("Name", userName)
+                putString("phoneNumber", phoneNumber)
+                putString("ImgPath", imgPath)
+            })
         }
         btn_history.setOnClickListener {
-            findNavController().navigate(R.id.visitHistoryFragment)
+            findNavController().navigate(R.id.visitHistoryFragment,Bundle().apply {
+                putString("Name", userName)
+            })
         }
     }
 

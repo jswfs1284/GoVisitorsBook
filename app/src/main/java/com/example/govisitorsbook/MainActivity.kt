@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Top Level Destination 설정. (뒤로가기 안보이게 하기)
-        NavigationUI.setupActionBarWithNavController(
+        /*NavigationUI.setupActionBarWithNavController(
             this,
             controller,
             AppBarConfiguration(
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.homeFragment
                 )
             )
-        )
+        )*/
     }
 
     override fun onActivityResult(  // QR코드 결과값 activity->fragment로 전달
