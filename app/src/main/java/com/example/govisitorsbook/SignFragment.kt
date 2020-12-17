@@ -18,7 +18,6 @@ import com.example.govisitorsbook.database.DatabaseMod
 import com.github.nkzawa.socketio.client.IO
 import com.github.nkzawa.socketio.client.Socket
 import com.google.common.hash.Hashing
-import com.squareup.okhttp.*
 import kotlinx.android.synthetic.main.fragment_sign.*
 import kotlinx.android.synthetic.main.fragment_sign.view.*
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +26,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
+import java.net.Socket
 import java.net.URISyntaxException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -79,7 +79,6 @@ class SignFragment : Fragment() {
                         visitDate = date.format(Date())
                     )
                     visitHistorydao.insertVisitHistory(visitHistoryEntity)
-                    findNavController().navigate(R.id.action_global_homeFragment)
                 }
             } else {    // 서명 인증 실패
                 Toast.makeText(requireContext(), "등록된 서명이 없습니다.", Toast.LENGTH_SHORT).show()
@@ -104,16 +103,13 @@ class SignFragment : Fragment() {
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             } finally {
-                Toast.makeText(requireContext(), "사인을 캡쳐했습니다", Toast.LENGTH_SHORT).show()
+
             }
 
             val imgString = BitmapToString(sign)
             val imghash = HashingSha256(imgString)
 
             val time = System.currentTimeMillis() /1000         // 타임 스템프
-
-            val client: OkHttpClient =
-                OkHttpClient()
 
             lateinit var mSocket : Socket
 
@@ -129,6 +125,13 @@ class SignFragment : Fragment() {
             mSocket.emit("stlog", "${userName} ${phoneNumber} ${shopName} ${address} ${time} ${imghash} ${"1"}")
 
             mSocket.disconnect()
+
+            findNavController().navigate(R.id.action_global_homeFragment,Bundle().apply {
+                putString("Name", userName)
+                putString("phoneNumber", phoneNumber)
+                putString("ImgPath", imgPath)})
+
+
         }
     }
 
@@ -148,13 +151,14 @@ class SignFragment : Fragment() {
         callback.remove()
     }
 
+    //bitmap -> String
     fun BitmapToString(bitmap: Bitmap): String? {
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 70, baos)
         val bytes: ByteArray = baos.toByteArray()
         return Base64.encodeToString(bytes, Base64.DEFAULT)
     }
-
+    //String -> sha256 (hash)
     fun HashingSha256(content : String?) : String {
         val hashFunction = Hashing.sha256()
         val hc = hashFunction
@@ -165,5 +169,4 @@ class SignFragment : Fragment() {
 
         return sha256
     }
-
 }

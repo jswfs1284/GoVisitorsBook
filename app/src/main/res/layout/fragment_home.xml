@@ -9,10 +9,11 @@
 
     <Button
         android:id="@+id/btn_QR"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_marginTop="140dp"
-        android:background="@drawable/edge"
+        android:background="@drawable/custombtn"
+        android:drawableTop="@drawable/qr"
         android:text="QR"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -23,10 +24,11 @@
 
     <Button
         android:id="@+id/btn_history"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/edge"
+        android:background="@drawable/custombtn"
+        android:drawableTop="@drawable/visit"
         android:text="방문 목록 조회"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -43,7 +45,7 @@
         android:layout_marginEnd="16dp"
         android:text="이름"
         android:textColor="#000000"
-        android:textSize="18dp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

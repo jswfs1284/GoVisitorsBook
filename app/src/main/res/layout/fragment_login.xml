@@ -7,33 +7,24 @@
         tools:context=".Login.LoginFragment">
 
         <Button
-            android:id="@+id/btn_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="로그인"
-            app:layout_constraintBaseline_toBaselineOf="@+id/btn_register"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_register" />
-
-        <Button
             android:id="@+id/btn_register"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
             android:text="유저 등록"
-            app:layout_constraintEnd_toStartOf="@+id/btn_login"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyc" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyc"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
+            android:background="@drawable/edge"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/btn_login"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="@+id/btn_register"
             app:layout_constraintStart_toStartOf="@+id/btn_register"
             app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

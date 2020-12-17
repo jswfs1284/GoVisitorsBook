@@ -29,9 +29,9 @@ import java.io.IOException
  */
 class QRFragment : Fragment() {
 
-    val userName = arguments?.getString("Name").toString()
-    val phoneNumber = arguments?.getString("phoneNumber").toString()
-    val imgPath = arguments?.getString("ImgPath").toString()
+    lateinit var userName : String
+    lateinit var phoneNumber : String
+    lateinit var imgPath : String
 
     lateinit var qrInfo : List<String>
 
@@ -40,6 +40,11 @@ class QRFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        userName = arguments?.getString("Name").toString()
+        phoneNumber = arguments?.getString("phoneNumber").toString()
+        imgPath = arguments?.getString("ImgPath").toString()
 
         // Zxing lib 사용한 QR 인식
         val integrator = IntentIntegrator.forSupportFragment(this@QRFragment)
@@ -51,17 +56,9 @@ class QRFragment : Fragment() {
 
         integrator.initiateScan()
 
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("Name")?.observe(
-            this.viewLifecycleOwner, Observer{
-                findNavController().navigate(R.id.action_QRFragment_to_signFragment,Bundle().apply {
-                    putString("Name", userName)
-                    putString("phoneNumber", phoneNumber)
-                    putString("ImgPath", imgPath)
-                    putString("Address", qrInfo[0])
-                    putString("Mall", qrInfo[1])
-                })
-            }
-        )
+
+
+
 
         return inflater.inflate(R.layout.fragment_qr, container, false)
     }
@@ -89,7 +86,7 @@ class QRFragment : Fragment() {
                 // 테스트용 QR코드 발급 : https://the-qrcode-generator.com/ 테스트값 입력 (ex. 성남시 수정구)
                 // 경재님 소스 들어갈 부분 (QR에서 가져온 값 - GPS값 비교)
 
-                qrInfo = result.contents.split(',')
+                qrInfo = result.contents.split(',')     // qrInfo[0] = 주소, qrInfo[1] = 매장명
 
                 val mGeoCoder = Geocoder(requireContext())
 
@@ -175,11 +172,13 @@ class QRFragment : Fragment() {
 
 
                 if (distance<1000){
-                    findNavController().getBackStackEntry(R.id.QRFragment).savedStateHandle.set("Name",userName)
-                    findNavController().getBackStackEntry(R.id.QRFragment).savedStateHandle.set("phoneNumber",phoneNumber)
-                    findNavController().getBackStackEntry(R.id.QRFragment).savedStateHandle.set("ImgPath",imgPath)
-                    findNavController().getBackStackEntry(R.id.QRFragment).savedStateHandle.set("Address",qrInfo[0])
-                    findNavController().getBackStackEntry(R.id.QRFragment).savedStateHandle.set("Mall",qrInfo[1])
+                    findNavController().navigate(R.id.action_QRFragment_to_signFragment,Bundle().apply {
+                        putString("Name", userName)
+                        putString("phoneNumber", phoneNumber)
+                        putString("ImgPath", imgPath)
+                        putString("Address", qrInfo[0])
+                        putString("Mall", qrInfo[1])
+                    })
                     }
                 else {
                     Toast.makeText(requireContext(), "현재 가게위치와 1km이내에 안계십니다", Toast.LENGTH_SHORT).show()
